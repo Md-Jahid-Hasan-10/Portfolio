@@ -1,0 +1,76 @@
+Everything you edit lives in ONE file                                                                                                                                                 
+                                                                                                                                                                                        
+  src/data/content.ts — all your text, dates, jobs, and links are here. Components just render from it. You never touch a component to change content.                                  
+                                                                                                                                                                                        
+  ---                                                                                                                                                                                   
+  1. Changing your CV                                                                                                                                                                 
+                                                                                                                                                                                        
+  Step 1 — Replace the file in public/:
+                                                                                                                                                                                        
+  portfolio/public/Jahid_Hasan_CV.pdf                                                                                                                                                 
+
+  Step 2 — If you keep the same filename, you're done. Nothing else changes.                                                                                                            
+  
+  Step 3 — If you rename it (e.g. Jahid_Hasan_CV_2026.pdf), update one line in src/data/content.ts:                                                                                     
+                                                                                                                                                                                      
+  cvPath: "/Jahid_Hasan_CV_2026.pdf",   // ← line 56
+                                                                                                                                                                                        
+  That single line updates all three "Download CV" buttons (navbar, hero, and mobile menu) at once.
+                                                                                                                                                                                        
+  Step 4 — Publish:                                                                                                                                                                     
+  cd "/home/bs01092/Projects/To Do/portfolio"
+  git add . && git commit -m "Update CV" && git push origin main                                                                                                                        
+  npx vercel deploy --prod --yes                                                                                                                                                      
+                                
+  ⚠️  One gotcha: if you rename the file but forget step 3, the buttons 404. Keep the filename Jahid_Hasan_CV.pdf and it's impossible to break.
+                                                                                                                                                                                        
+  ---
+  2. Changing your graduation date                                                                                                                                                      
+                                                                                                                                                                                      
+  Two places — a summary sentence and the Education card. Miss one and they contradict each other.
+                                                                                                                                                                                        
+  In src/data/content.ts:
+                                                                                                                                                                                        
+  // Around line 139 — the About paragraph                                                                                                                                            
+  "I'm an ICT undergraduate at Jahangirnagar University, graduating in January 2027, currently working as a Trainee Software Engineer at Brain Station 23 PLC.",
+                                                                                                                                                                                        
+  // Around line 458 — the Education card
+  period: "February 2023 – January 2027 (expected)",                                                                                                                                    
+                                                                                                                                                                                      
+  Also update cgpa if it changed:                                                                                                                                                       
+  cgpa: "CGPA 3.75 (up to 6th semester)",
+                                                                                                                                                                                        
+  ---                                                                                                                                                                                 
+  3. Changing your Brain Station job
+                                    
+  Around line 157-163 — the Experience timeline:
+                                                                                                                                                                                        
+  {
+    title: "Trainee Software Engineer",                                                                                                                                                 
+    organization: "Brain Station 23 PLC",                                                                                                                                             
+    period: "October 2026 – Present",
+    current: true,          // ← shows the "Present" badge; set false when you leave
+  },                                                                                                                                                                                    
+  
+  And around line 139 — the About paragraph mentions it too:                                                                                                                            
+  "...currently working as a Trainee Software Engineer at Brain Station 23 PLC.",                                                                                                     
+
+  And around line 146 — the About fact card:                                                                                                                                            
+  { label: "Current role", value: "Trainee Software Engineer" },
+                                                                                                                                                                                        
+  If you get promoted, change title in all three places.                                                                                                                              
+                                                                                                                                                                                        
+  ---
+  4. The full workflow                                                                                                                                                                  
+                                                                                                                                                                                      
+  Every time you change anything:
+
+  cd "/home/bs01092/Projects/To Do/portfolio"
+  git add .
+  git commit -m "your message"
+  git push origin main                                                                                                                                                                  
+  npx vercel deploy --prod --yes
+                                                                                                                                                                                        
+  The first three lines save your work to GitHub. The last line publishes it to the live site — this last one is the one people forget, and the site won't update without it.           
+  
+

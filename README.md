@@ -219,8 +219,16 @@ portfolio/
 └─ package.json
 ```
 
+
+
 ---
 
 ## 📄 License
 
 Private project. All rights reserved.
+
+## Author
+
+**Jahid hasan**
+
+
