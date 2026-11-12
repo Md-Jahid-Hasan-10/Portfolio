@@ -135,24 +135,25 @@ All assets live in `public/`. Just overwrite the file — no code changes needed
 
 ### Option A — Vercel CLI
 
+`vercel` is already a devDependency in this project, so no global install is needed:
+
 ```bash
 cd portfolio
-npm i -g vercel
-vercel          # preview deployment
-vercel --prod   # production deployment
+npx vercel login      # one-time browser confirmation
+npx vercel            # preview deployment
+npx vercel --prod     # production deployment
 ```
 
 ### Option B — GitHub + Vercel Dashboard
 
-1. **Push to GitHub**
+The repo is already pushed to `github.com/Md-Jahid-Hasan-10/Portfolio` and the site files sit at the **repository root** (`package.json`, `next.config.mjs`, `src/`, `public/`), which is what Vercel expects.
+
+1. **Push future changes**
    ```bash
    cd portfolio
-   git init
    git add .
-   git commit -m "Initial commit: portfolio site"
-   git branch -M main
-   git remote add origin https://github.com/<your-username>/<repo-name>.git
-   git push -u origin main
+   git commit -m "your message"
+   git push origin main
    ```
 2. **Import on Vercel**
    - Go to [vercel.com/new](https://vercel.com/new)
@@ -162,8 +163,15 @@ vercel --prod   # production deployment
 3. **Add your domain** *(optional but recommended)*
    - Vercel assigns a free `*.vercel.app` URL immediately
    - For a custom domain: **Project → Settings → Domains → Add**, then point your DNS A/ANAME record at Vercel
-4. **Update the canonical URL**
-   - Set `site.url` in `src/data/content.ts` to your live domain, then redeploy
+### Canonical URL — nothing to do
+
+The canonical URL, Open Graph `og:url`, `sitemap.xml` and `robots.txt` **resolve the live host automatically at request time** via `resolveSiteUrl()` in `src/data/content.ts`. There is no URL to hardcode, and no manual step after deploying, renaming the project, or adding a custom domain.
+
+To override it anyway, set one environment variable in **Vercel → Settings → Environment Variables**:
+
+| Variable | Effect |
+|---|---|
+| `NEXT_PUBLIC_SITE_URL` | Forces the canonical URL to this value (trailing slash trimmed). Leave unset to auto-detect. |
 
 ### Environment variables
 
