@@ -1,0 +1,137 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Light theme */
+    --bg: 250 250 250;
+    --surface: 255 255 255;
+    --elevated: 244 244 245;
+    --border: 24 24 27;
+    --fg: 24 24 27;
+    --muted: 82 82 91;
+    --faint: 161 161 170;
+    --accent: 8 145 178;
+    --violet: 124 58 237;
+
+    --border-opacity: 0.1;
+  }
+
+  .dark {
+    /* Dark theme */
+    --bg: 10 10 15;
+    --surface: 18 18 26;
+    --elevated: 26 26 36;
+    --border: 255 255 255;
+    --fg: 244 244 245;
+    --muted: 161 161 170;
+    --faint: 113 113 122;
+    --accent: 34 211 238;
+    --violet: 139 92 246;
+
+    --border-opacity: 0.08;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* Offset anchor targets so the sticky navbar does not cover section titles. */
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-bg text-fg antialiased;
+    font-feature-settings: "cv11", "ss01";
+    font-variation-settings: "opsz" 32;
+  }
+
+  /* Visible focus rings for keyboard users only. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent ring-offset-2 ring-offset-bg;
+  }
+
+  ::selection {
+    @apply bg-accent/25 text-fg;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-bg;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-border/20;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-border/30;
+  }
+}
+
+@layer components {
+  .container-content {
+    @apply mx-auto w-full max-w-content px-5 sm:px-8;
+  }
+
+  /* Card surface with hairline border, soft hover lift and accent edge glow. */
+  .card {
+    @apply relative rounded-2xl border border-border/[0.08] bg-surface transition-all duration-300;
+  }
+
+  .card-interactive {
+    @apply hover:-translate-y-1 hover:border-accent/30 hover:shadow-accent-glow;
+  }
+
+  /* Small monospace label used above section titles. */
+  .label-mono {
+    @apply font-mono text-xs font-medium uppercase tracking-[0.18em] text-accent;
+  }
+
+  .text-gradient {
+    @apply bg-accent-gradient bg-clip-text text-transparent;
+  }
+
+  /* Skip link, revealed on keyboard focus. */
+  .skip-link {
+    @apply sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-bg;
+  }
+}
+
+@layer utilities {
+  .mask-fade-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+  }
+
+  .grid-bg {
+    background-image: linear-gradient(
+        to right,
+        rgb(var(--border) / 0.05) 1px,
+        transparent 1px
+      ),
+      linear-gradient(to bottom, rgb(var(--border) / 0.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
