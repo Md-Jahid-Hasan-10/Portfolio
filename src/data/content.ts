@@ -12,16 +12,47 @@ export const TODO = "TODO_";
 /*  Site metadata                                                             */
 /* -------------------------------------------------------------------------- */
 
+/**
+ * Resolve the site's public URL.
+ *
+ * Priority:
+ *   1. `NEXT_PUBLIC_SITE_URL` env var (set this in Vercel if you ever want a
+ *      custom domain to win over the auto-detected one).
+ *   2. The host of the incoming request — so the correct URL is used on
+ *      preview, production and custom domains without any code change.
+ *   3. A localhost fallback for local development.
+ *
+ * This means the canonical URL, sitemap and robots.txt are always correct,
+ * with nothing to update after deploying.
+ */
+export function resolveSiteUrl(requestHost?: string | null): string {
+  const fromEnv = process.env.NEXT_PUBLIC_SITE_URL;
+  if (fromEnv) return fromEnv.replace(/\/$/, "");
+
+  const host =
+    requestHost ??
+    (typeof window !== "undefined" ? window.location.host : undefined);
+
+  if (host && host !== "localhost:3000" && !host.startsWith("localhost:")) {
+    return `https://${host}`;
+  }
+
+  return "http://localhost:3000";
+}
+
 export const site = {
   name: "Jahid Hasan",
   title: "Jahid Hasan | Backend Engineer",
   description:
     "Backend engineer building event-driven microservices with Spring Boot, Kafka and Redis. ICPC finalist and Codeforces Expert.",
-  // TODO: replace with your real domain once it is live (Vercel default works too).
-  url: `${TODO}https://jahidhasan.dev`,
+  /**
+   * Leave this empty — `resolveSiteUrl()` detects the live host automatically.
+   * Set `NEXT_PUBLIC_SITE_URL` in Vercel to override it.
+   */
+  url: "",
   locale: "en_US",
-  // TODO: replace with a real 1200x630 social share image.
-  ogImage: `${TODO}/og-image.png`,
+  /** Generated at build time by `src/app/opengraph-image.tsx`. */
+  ogImage: "/opengraph-image",
   cvPath: "/Jahid_Hasan_CV.pdf",
   initials: "JH",
 } as const;

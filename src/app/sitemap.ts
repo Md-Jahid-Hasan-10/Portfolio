@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/data/content";
-import { isRealLink } from "@/lib/utils";
+import { headers } from "next/headers";
+import { resolveSiteUrl } from "@/data/content";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const url = isRealLink(site.url) ? site.url : "https://example.com";
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const h = await headers();
+  const url = resolveSiteUrl(h.get("x-forwarded-host") ?? h.get("host"));
   const lastModified = new Date();
 
   return [

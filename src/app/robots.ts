@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/data/content";
-import { isRealLink } from "@/lib/utils";
+import { headers } from "next/headers";
+import { resolveSiteUrl } from "@/data/content";
 
-export default function robots(): MetadataRoute.Robots {
-  const url = isRealLink(site.url) ? site.url : "https://example.com";
+export default async function robots(): Promise<MetadataRoute.Robots> {
+  const h = await headers();
+  const url = resolveSiteUrl(h.get("x-forwarded-host") ?? h.get("host"));
 
   return {
     rules: [{ userAgent: "*", allow: "/" }],
