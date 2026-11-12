@@ -133,36 +133,36 @@ All assets live in `public/`. Just overwrite the file — no code changes needed
 
 ## 🚀 Deploy to Vercel
 
-### Option A — Vercel CLI
+**Live URL:** https://portfolio-alpha-ochre-dgbfr7rak7.vercel.app
+**Vercel project name:** `portfolio` (the `portfolio-alpha-ochre-dgbfr7rak7` part is the deployment alias Vercel assigned)
 
-`vercel` is already a devDependency in this project, so no global install is needed:
+### The normal workflow
+
+This project is connected to GitHub but configured **sourceless** — deploys come from the CLI, so `git push` alone does **not** publish. Ship changes with both steps:
 
 ```bash
 cd portfolio
-npx vercel login      # one-time browser confirmation
-npx vercel            # preview deployment
-npx vercel --prod     # production deployment
+git add .
+git commit -m "your message"
+git push origin main          # for history / backup
+npx vercel deploy --prod --yes # actually publishes
 ```
 
-### Option B — GitHub + Vercel Dashboard
+`npx vercel` (without `--prod`) creates a preview deployment instead.
 
-The repo is already pushed to `github.com/Md-Jahid-Hasan-10/Portfolio` and the site files sit at the **repository root** (`package.json`, `next.config.mjs`, `src/`, `public/`), which is what Vercel expects.
+### First-time setup
 
-1. **Push future changes**
-   ```bash
-   cd portfolio
-   git add .
-   git commit -m "your message"
-   git push origin main
-   ```
-2. **Import on Vercel**
-   - Go to [vercel.com/new](https://vercel.com/new)
-   - Click **Add New → Project** and import your repository
-   - Vercel detects Next.js automatically — leave the build settings as-is
-   - Click **Deploy**
-3. **Add your domain** *(optional but recommended)*
-   - Vercel assigns a free `*.vercel.app` URL immediately
-   - For a custom domain: **Project → Settings → Domains → Add**, then point your DNS A/ANAME record at Vercel
+```bash
+cd portfolio
+npx vercel login                        # one-time browser confirmation
+npx vercel link --project portfolio     # link this folder to the project
+```
+
+### Adding a custom domain *(optional but recommended)*
+
+- **Vercel → Settings → Domains → Add**, then point your DNS A/ANAME record at Vercel.
+- No code change needed — the canonical URL follows the new host automatically (see below).
+
 ### Canonical URL — nothing to do
 
 The canonical URL, Open Graph `og:url`, `sitemap.xml` and `robots.txt` **resolve the live host automatically at request time** via `resolveSiteUrl()` in `src/data/content.ts`. There is no URL to hardcode, and no manual step after deploying, renaming the project, or adding a custom domain.
