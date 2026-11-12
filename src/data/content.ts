@@ -53,6 +53,11 @@ export const site = {
   locale: "en_US",
   /** Generated at build time by `src/app/opengraph-image.tsx`. */
   ogImage: "/opengraph-image",
+  /**
+   * Your CV lives in `public/`. Drop the file there and — if you rename it —
+   * update this one line. Any filename works; the download buttons in the
+   * navbar, hero and footer all read from here.
+   */
   cvPath: "/Jahid_Hasan_CV.pdf",
   initials: "JH",
 } as const;
